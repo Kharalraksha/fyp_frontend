@@ -23,8 +23,8 @@ const ArtistLogin = () => {
       // Assuming you want to store these in local storage
       localStorage.setItem("artistId", artist_id.toString()); // Store artist ID
       localStorage.setItem("token", token); // Store JWT token
-
-      navigate(`/timeslot/${artist_id}`); // Navigate to the timeslot page
+      localStorage.setItem("artist_email", email);
+      navigate(`/panel`); // Navigate to the timeslot page
     } catch (error) {
       console.error("An error occurred during login:", error);
       alert("Invalid login credentials. Please try again.");

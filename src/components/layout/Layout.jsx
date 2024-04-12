@@ -1,16 +1,47 @@
-// Layout.js
 import React from "react";
-import Navbarr from "./components/user/Navbarr";
-import Footer from "./components/user/Footer";
+import { useLocation } from "react-router-dom";
+import Navbarr from "../user/Navbarr";
+import Footer from "../user/Footer";
 
-const Layout = ({ children }) => {
+function Layout({ children }) {
+  const location = useLocation();
+  const excludeNavFooterPaths = [
+    "/SigninForm",
+    "/signupform",
+    "/Bridepage",
+
+    "/Registrationform",
+    "/Artistlogin",
+    "/dashboard",
+    "/appointment",
+    "/user",
+    "/artist",
+    "/review",
+    "/panel",
+    "/timeslot",
+    "/upload",
+    "/history",
+    "/payment",
+    "/editpayment/:id",
+    "/edituserform/:id",
+    "artistprofile",
+    "/ContactUS",
+    "/Aboutus",
+  ];
+
+  const showNavFooter = !excludeNavFooterPaths.some(
+    (path) =>
+      location.pathname === path ||
+      location.pathname.startsWith(path.replace("/:id", ""))
+  );
+
   return (
     <>
-      <Navbarr />
+      {showNavFooter && <Navbarr />}
       {children}
-      <Footer />
+      {showNavFooter && <Footer />}
     </>
   );
-};
+}
 
 export default Layout;

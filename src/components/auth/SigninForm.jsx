@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useAuth } from "../auth/Authcontext";
+import axios from "axios";
 
 const SigninForm = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,11 @@ const SigninForm = () => {
   useEffect(() => {
     // Redirect if the user is already logged in
     if (user && user.token) {
-      navigate("/home");
+      if (user.role === "admin") {
+        navigate("/dashboard"); // Navigate to the dashboard for admins
+      } else {
+        navigate("/"); // Navigate to the homepage for regular users
+      }
     }
   }, [user, navigate]);
 
@@ -46,40 +51,41 @@ const SigninForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
     setIsSubmitting(true);
+    setMessage("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/user/login", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json" ,
-           
+      const response = await axios.post(
+        "http://localhost:3000/api/user/login",
+        {
+          email,
+          password,
+        }
+      );
 
-      },
-        body: JSON.stringify({ email, password }),
-      });
+      if (response.status === 200 && response.data.token) {
+        const { token, userDetails } = response.data;
 
-      const data = await response.json();
-      console.log(data); // Log the response data for debugging
-      if (response.ok) {
-        // Check if the response contains the expected fields
-        if (data && data.token && data.user_Id) {
-          // Store user ID and token in localStorage
-          localStorage.setItem("userId", data.user_Id);
-          localStorage.setItem("token", data.token);
-          // Update the user context
-          login({ userId: data.user_Id, token: data.token });
-          navigate("/home");
+        // Update the login function call to include name from userDetails
+        login({
+          userId: userDetails.userId,
+          token: token,
+          email: userDetails.email,
+          name: userDetails.name, // Use the key that matches your backend response
+          role: userDetails.role, // Include role in user context
+        });
+
+        if (userDetails.role === "admin") {
+          navigate("/dashboard"); // Navigate to the dashboard for admins
         } else {
-          setMessage("Invalid response format: Missing token or user ID");
+          navigate("/"); // Navigate to the homepage for regular users
         }
       } else {
-        setMessage(data.message || "Login Failed");
+        setMessage(response.data.message || "Login failed. Please try again.");
       }
     } catch (error) {
+      console.error("Login error:", error.response || error);
       setMessage("An error occurred. Please try again later.");
     } finally {
       setIsSubmitting(false);

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import SearchBar from "./SearchBar";
+
 import EditForm from "./Editform";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -26,13 +26,13 @@ const Artist = () => {
     fetchArtist();
   }, []);
 
-  const handleDeleteArtist = async (artist_Id) => {
+  const handleDeleteArtist = async (artistId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/artist/deleteArtist/${artist_Id}`
+        `http://localhost:3000/api/artist/deleteArtist/25`
       );
       console.log("API Response:", response.data);
-      setArtists(artists.filter((artist) => artist.artist_Id !== artist_Id));
+      setArtists(artists.filter((artist) => artist.artist_Id !== artistId));
       closeModal(); // Close the modal on successful deletion
     } catch (error) {
       console.error("Error deleting the artist: ", error);
@@ -64,11 +64,9 @@ const Artist = () => {
       <div className="">
         <Navbar />
       </div>
-      <div className="">
-        <SearchBar />
-      </div>
+      <div className=""></div>
 
-      <div className="overflow-x-auto ml-60 mr-0">
+      <div className="overflow-x-auto ml-60 mr-0 mt-10">
         <table className="w-full bg-white border border-gray-300 mt-12">
           <thead>
             <tr className="bg-slate-200  text-black border-b">

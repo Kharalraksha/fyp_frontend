@@ -25,38 +25,61 @@ import FestivalPage from "./components/user/FestivalPage";
 import Festivepage from "./components/user/FestivePage";
 import CasualPage from "./components/user/Casualpage";
 import Causepage from "./components/user/Causepage";
+import Khalti from "./components/Khalti/Khalti";
+import Layout from "./components/layout/Layout";
+import ReviewForm from "./components/user/ReviewForm";
+import ArtistPanel from "./components/user/ArtistPanel";
+import AppointmentHistory from "./components/user/AppointmentHistory";
+import EditPaymentForm from "./components/admin/EditPaymentForm";
+import Payment from "./components/admin/Payment";
+import EditArtistProfile from "./components/user/EditArtistProfile";
+import AboutUs from "./components/user/AboutUs";
 
 function App() {
   return (
     <React.StrictMode>
       <AuthProvider>
         <Router>
-          <Navbarr />
-          <Routes>
-            <Route path="/" element={<ArtistLogin />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/user" element={<User />} />
-            <Route path="/artist" element={<Artist />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/registration-form" element={<RegistrationForm />} />
-            <Route path="/contact-us" element={<ContactUs />} />
-            <Route path="/signinform" element={<SigninForm />} />
-            <Route path="/signupform" element={<SignupForm />} />
-            <Route path="/bridal" element={<BridalPage />} />
-            <Route path="/edit-form/:id" element={<EditForm />} />
-            <Route path="/bridepage/:id" element={<BridePage />} />
-            <Route path="/festival" element={<FestivalPage />} />
-            <Route path="/festivepage/:id" element={<Festivepage />} />
-            <Route path="/causepage/:id" element={<Causepage />} />
-            <Route path="/casual" element={<CasualPage />} />
-            <Route path="/edituserform/:id" element={<EditUserForm />} />
-            <Route path="/editappointment/:id" element={<EditAppointment />} />
-            <Route path="/timeslot/:artistId" element={<Timeslot />} />
-            <Route path="/upload" element={<UploadMultipleFiles />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="/userappointment/:id" element={<UserAppointment />} />
-          </Routes>
-          <Footer />
+          <Layout>
+            <Routes>
+              <Route path="/artistLogin" element={<ArtistLogin />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/user" element={<User />} />
+              <Route path="/artist" element={<Artist />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/registrationform" element={<RegistrationForm />} />
+              <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/signinform" element={<SigninForm />} />
+              <Route path="/signupform" element={<SignupForm />} />
+              <Route path="/bridal" element={<BridalPage />} />
+              <Route path="/editform/:id" element={<EditForm />} />
+              <Route path="/bridepage/:id" element={<BridePage />} />
+              <Route path="/festival" element={<FestivalPage />} />
+              <Route path="/festivepage/:id" element={<Festivepage />} />
+              <Route path="/causepage/:id" element={<Causepage />} />
+              <Route path="/casual" element={<CasualPage />} />
+              <Route path="/edituserform/:id" element={<EditUserForm />} />
+              <Route path="/editpayment/:id" element={<EditPaymentForm />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route
+                path="/editappointment/:id"
+                element={<EditAppointment />}
+              />
+              <Route path="/timeslot/:artistId" element={<Timeslot />} />
+              <Route path="/upload/:id" element={<UploadMultipleFiles />} />
+              <Route path="/appointment" element={<Appointment />} />
+              <Route path="/panel" element={<ArtistPanel />} />
+              <Route path="/history" element={<AppointmentHistory />} />
+              <Route path="/aboutus" element={<AboutUs />} />
+              <Route path="/artistprofile" element={<EditArtistProfile />} />
+              <Route
+                path="/userappointment/:id"
+                element={<UserAppointment />}
+              />
+              <Route path="/khalti" element={<Khalti />} />
+              <Route path="/review" element={<ReviewForm />} />
+            </Routes>
+          </Layout>
         </Router>
       </AuthProvider>
     </React.StrictMode>

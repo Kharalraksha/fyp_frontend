@@ -3,7 +3,7 @@ import axios from "axios";
 import Popup from "reactjs-popup";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import SearchBar from "./SearchBar";
+
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import EditAppointment from "./editAppointment";
@@ -71,11 +71,9 @@ const Appointment = () => {
       <div className="">
         <Navbar />
       </div>
-      <div className="">
-        <SearchBar />
-      </div>
+      <div className=""></div>
       <div className="overflow-x-auto ml-60 mr-0">
-        <table className="w-full bg-white border border-gray-300 mt-12">
+        <table className="w-full bg-white border border-gray-300 mt-28">
           <thead>
             <tr className="bg-slate-200  text-black border-b">
               <th className="py-2 px-4 border-r">ID</th>

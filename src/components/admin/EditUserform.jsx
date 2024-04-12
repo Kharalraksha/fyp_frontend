@@ -5,8 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 const EditUserForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userData, setUserData] = useState({
-    user_Name: "",
-    phone_Number: "",
+    name: "",
+    phone: "",
     email: "",
     address: "",
   });
@@ -21,7 +21,7 @@ const EditUserForm = () => {
           `http://localhost:3000/api/user/${id}`
         );
         setUserData(response.data);
-        setIsModalOpen(true); // Open the modal when data is fetched
+        setIsModalOpen(true);
       } catch (error) {
         console.error("Error fetching user data: ", error);
       }
@@ -35,18 +35,18 @@ const EditUserForm = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/user/editUser`,
+        `http://localhost:3000/api/user/editUser/${id}`,
         userData
       );
       console.log("Update Response:", response.data);
-      setIsModalOpen(false); // Close the modal upon successful update
+      setIsModalOpen(false);
       navigate("/user");
     } catch (error) {
       console.error("Error updating user data: ", error);
     }
   };
 
-  if (!isModalOpen) return null; // Prevent form from rendering if modal is not open
+  if (!isModalOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">

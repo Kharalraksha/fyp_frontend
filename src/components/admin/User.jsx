@@ -3,7 +3,7 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import SearchBar from "./SearchBar";
+
 import Popup from "reactjs-popup";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const User = () => {
@@ -25,24 +25,21 @@ const User = () => {
     fetchUsers();
   }, []);
 
-  const handleDeleteUser = async (user_Id) => {
+  const handleDeleteUser = async (userId) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/api/user/deleteUser/${user_Id}`
-      );
-
-      console.log("API Response:", response.data);
-      setUsers(artists.filter((user) => user.user_Id !== user_Id));
-      closeModal(); // Close the modal on successful deletion
+      await axios.delete(`http://localhost:3000/api/user/deleteUser/${userId}`);
+      setUsers(users.filter((user) => user.user_Id !== userId));
+      closeModal();
+      toast.success("User deleted successfully");
     } catch (error) {
-      console.error("Error deleting the artist: ", error);
+      console.error("Error deleting the user: ", error);
       closeModal(); // Close the modal on error as well
+      toast.error("Failed to delete the user");
     }
   };
 
   const handleEditUser = (userId) => {
-    console.log(`Edit user with ID ${userId}`);
-    // Implement your logic to navigate to the edit page or show an edit modal
+    navigate(`/EditUserForm/${userId}`);
   };
 
   const handlePreviousClick = () => {
@@ -64,9 +61,7 @@ const User = () => {
       <div className="flex-1 p-4">
         <Navbar />
       </div>
-      <div className="">
-        <SearchBar />
-      </div>
+      <div className=""></div>
       <div className="overflow-x-auto ml-60 mr-0">
         <div className="overflow-x-auto mt-12">
           <table className="min-w-full bg-white border border-gray-300">

@@ -36,7 +36,7 @@ const EditForm = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/artist/editArtist`,
+        `http://localhost:3000/api/artist/editArtist/${id}`, // Fix the URL
         artistData
       );
       console.log("Update Response:", response.data);
@@ -61,7 +61,9 @@ const EditForm = () => {
           <button
             onClick={() => setIsModalOpen(false)}
             className="float-right bg-transparent text-black"
-          ></button>
+          >
+            Close
+          </button>
 
           <div className="mb-4">
             <label
@@ -91,8 +93,9 @@ const EditForm = () => {
               type="text"
               id="phone"
               value={artistData.phone_Number}
-              onChange={(e) =>
-                setArtistData({ ...artistData, phone: e.target.value })
+              onChange={
+                (e) =>
+                  setArtistData({ ...artistData, phone_Number: e.target.value }) // Fix the property name
               }
               className="mt-1 p-2 w-full border rounded-md"
             />

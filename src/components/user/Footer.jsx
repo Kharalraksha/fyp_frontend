@@ -22,21 +22,30 @@ const Footer = () => (
           {/* <!--First links section--> */}
           <div className="mb-6 ">
             <h2 className="mb-3 text-black text-xl font-bold">Services</h2>
-            <ul className="mb-0 list-none">
+            <ul>
               <li className="mb-3">
-                <a href="#" className="text-neutral-800 dark:text-neutral-800 ">
+                <Link
+                  to="/bridal"
+                  className="text-neutral-800 dark:text-neutral-800"
+                >
+                  Bridal Makeup
+                </Link>
+              </li>
+              <li className="mb-3">
+                <Link
+                  to="/festival"
+                  className="text-neutral-800 dark:text-neutral-800"
+                >
                   Festive Makeup
-                </a>
+                </Link>
               </li>
               <li className="mb-3">
-                <a href="#" className="text-neutral-800 dark:text-neutral-800">
+                <Link
+                  to="/casual"
+                  className="text-neutral-800 dark:text-neutral-800"
+                >
                   Casual Makeup
-                </a>
-              </li>
-              <li className="mb-3">
-                <a href="#" className="text-neutral-800 dark:text-neutral-800">
-                  Party Makeup
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -47,7 +56,7 @@ const Footer = () => (
             <ul className="mb-0 list-none">
               <li className="mb-3">
                 <Link
-                  to="/signinform"
+                  to="/SigninForm"
                   className="text-neutral-800 dark:text-neutral-800"
                 >
                   User
@@ -79,9 +88,12 @@ const Footer = () => (
                 </a>
               </li>
               <li className="mb-3">
-                <a href="#" className="text-neutral-800 dark:text-neutral-800">
+                <Link
+                  to="/ContactUS"
+                  className="text-neutral-800 dark:text-neutral-800"
+                >
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

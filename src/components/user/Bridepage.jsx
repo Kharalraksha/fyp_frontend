@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import axios for API fetching
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // Import Calendar CSS
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/Authcontext";
+import ReviewForm from "./ReviewForm";
 
 const Bridepage = () => {
   const { id } = useParams();
-  console.log(id);
-  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   const [artists, setArtists] = useState([]);
-  const [pastWorks, setPastWorks] = useState([]); // State for storing past works
+  const [pastWorks, setPastWorks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user_Id, setUser_Id] = useState(null);
+  const [artist_Id, setArtist_Id] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(null);
   const availableTimes = ["09:00 AM", "11:00 AM", "02:00 PM", "04:00 PM"];
-
+  const userId = user?.id;
   useEffect(() => {
     fetchArtists();
-    fetchPastWorks(); // Fetch past works when the component mounts or id changes
+    fetchPastWorks();
   }, [id]);
 
   const fetchArtists = async () => {
@@ -28,8 +29,8 @@ const Bridepage = () => {
       const response = await axios.get(
         `http://localhost:3000/api/artist/${id}`
       );
-      console.log(response.data);
       setArtists(response.data);
+      setArtist_Id(response.data.artist_Id);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching artists:", error);
@@ -38,47 +39,45 @@ const Bridepage = () => {
     }
   };
 
-  const fetchPastWorks = async () => {
+  const fetchPastWorks = async (artistId) => {
     try {
       const response = await axios.get(`http://localhost:3000/api/upload/get`);
-      console.log(response.data);
-      setPastWorks(response.data); // Assuming the API returns an array of past works
+      setPastWorks(response.data);
     } catch (error) {
       console.error("Error fetching past works:", error);
-      // Handle error for fetching past works
     }
   };
 
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
+  const handleBooking = () => {
+    if (user) {
+      navigate(`/userappointment/${artists.artist_Id}`);
+    } else {
+      navigate("/SigninForm");
+    }
   };
+
+  useEffect(() => {
+    setUser_Id(user ? user.id : null);
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-red-50 flex flex-col">
-      {/* Main Content */}
       <main className="flex-grow">
-        {/* Hero Section */}
-        <HeroSection artists={artists} setShowPopup={setShowPopup} />{" "}
-        {/* Assuming you're fetching one artist */}
-        {/* Services Section */}
+        <HeroSection
+          artists={artists}
+          setShowPopup={setShowPopup}
+          handleBooking={handleBooking}
+        />
         <ServicesSection />
-        <PastWorkSection pastWorks={pastWorks} />
+        <PastWorkSection pastWorks={pastWorks} artistId={id} user_Id={userId} />
       </main>
-      {/* Past Work Section */}
     </div>
   );
 };
 
-const HeroSection = ({ artists, setShowPopup }) => {
-  // Existing code...
-
-  const togglePopup = () => {
-    setShowModal(true); // This will now control the visibility of the modal
-  };
-
+const HeroSection = ({ artists, setShowPopup, handleBooking }) => {
   return (
     <div className="container mx-auto my-12 px-6 md:flex md:flex-row-reverse items-center">
-      {/* Image Section */}
       <div className="flex justify-end md:w-1/2">
         <img
           src={artists.image}
@@ -86,22 +85,29 @@ const HeroSection = ({ artists, setShowPopup }) => {
           className="w-96 h-98 rounded-lg shadow-xl object-cover"
         />
       </div>
-      {/* Text Section */}
       <div className="md:w-1/2 space-y-9 mt-6 md:mt-0 md:mr-6 text-center md:text-left">
         <h1 className="text-5xl font-bold text-gray-900 leading-tight">
           {artists.artist_Name}
         </h1>
         <p className="text-gray-600 text-lg">{artists.bio}</p>
+        {artists.price && (
+          <p className="text-xl font-semibold">Price: ${artists.price}</p>
+        )}
+        {artists.experience && (
+          <p className="text-xl font-semibold">
+            Experience: {artists.experience} years
+          </p>
+        )}
         <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-          <Link
-            to={`/userappointment/${artists.artist_Id}`} // Assuming `artists.id` holds the artist ID
+          <button
+            onClick={handleBooking}
             className="bg-orange-400 hover:bg-red-200 text-white font-bold py-3 px-6 rounded-lg"
           >
             Book a Session
-          </Link>
+          </button>
           <button
             className="bg-orange-400 hover:bg-red-200 text-white font-bold py-3 px-6 rounded-lg"
-            onClick={() => console.log("Book a Session clicked!")}
+            onClick={() => console.log("Show more clicked!")}
           >
             Show more
           </button>
@@ -165,7 +171,7 @@ const ServiceCard = ({ title, description, servicesOffered }) => {
   );
 };
 
-const PastWorkSection = ({ pastWorks }) => {
+const PastWorkSection = ({ pastWorks, artistId, user_Id }) => {
   return (
     <section className="py-10">
       <div className="container mx-auto px-6">
@@ -173,20 +179,21 @@ const PastWorkSection = ({ pastWorks }) => {
           Past Works
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pastWorks.map((pastWorks, index) => (
+          {pastWorks.map((pastWork, index) => (
             <div
               key={index}
               className="w-full flex justify-center items-center overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
               style={{ height: "450px", width: "350px" }}
             >
               <img
-                src={pastWorks.image_url} // Assuming each work has an `imageUrl` field
+                src={pastWork.image_url}
                 alt={`Work ${index + 1}`}
                 className="h-full w-full object-cover rounded-lg"
               />
             </div>
           ))}
         </div>
+        <ReviewForm artistId={artistId} userId={user_Id} />
       </div>
     </section>
   );

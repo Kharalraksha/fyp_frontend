@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import axios
 import aboutus from "../../assets/aboutusimg.jpg";
 
 const ContactPage = () => {
@@ -8,16 +9,46 @@ const ContactPage = () => {
     phoneNumber: "",
     message: "",
   });
+  const [isLoading, setIsLoading] = useState(false); // State to manage loading status
+  const [error, setError] = useState(""); // State to manage error messages
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContactDetails({ ...contactDetails, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would handle the submission of the contact details
-    console.log(contactDetails);
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // Ensure endpoint matches your server configuration
+      const response = await axios.post(
+        "http://localhost:3000/api/contact/contact",
+        {
+          name: contactDetails.name,
+          address: contactDetails.address,
+          phonenumber: contactDetails.phoneNumber, // Match backend field name
+          message: contactDetails.message,
+        }
+      );
+      console.log(response.data);
+      // Reset form or show success message
+      setContactDetails({
+        name: "",
+        address: "",
+        phoneNumber: "",
+        message: "",
+      });
+      alert("Details submitted successfully!");
+      // Handle any additional actions on success, such as displaying a success message
+    } catch (error) {
+      console.error("There was an error submitting the form:", error);
+      setError("Failed to submit the form. Please try again later."); // Set error message
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

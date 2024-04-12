@@ -1,65 +1,35 @@
-// Navbar.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FiUser } from "react-icons/fi";
-import axios from "axios";
-import { useNavigate } from "react-router";
-import Skeleton from "react-loading-skeleton";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ baseUrl }) => {
   const navigate = useNavigate();
-
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("Rakshya"); // Assuming userName is fetched and stored here
 
   const handleLogout = () => {
-    if (localStorage.getItem("token")) {
-      localStorage.removeItem("token");
-      navigate("/");
-      window.location.reload();
-    }
+    localStorage.removeItem("token");
+    navigate("/");
+    window.location.reload();
   };
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     try {
-  //       const response = await axios.get(`h`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       });
-  //       setUserName(response.data.message.name);
-  //     } catch (error) {
-  //       console.error("Error fetching user profile:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchUserProfile();
-  // }, [baseUrl, navigate]);
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
   };
 
   return (
-    <div
-      className="  ml-52  p-2 bg-red-300 border fixed w-full
-     "
-    >
-      <div className=" items-center">
-        <span className="text-black text-lg font-bold">{`Hello, Rakshya ${userName}`}</span>
+    <div className="fixed top-0 left-52 right-0 bg-red-300 p-6 flex justify-between items-center">
+      <div>
+        <span className="text-black text-lg font-bold">{`Hello, ${userName}`}</span>
       </div>
 
-      <div className="relative ">
-        <button onClick={toggleDropdown}>
+      <div className="relative">
+        <button onClick={toggleDropdown} className="focus:outline-none">
           <FiUser size={20} />
         </button>
         {isDropdownOpen && (
-          <div className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg">
-            <button className="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 w-full ">
+          <div className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+            <button className="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 w-full">
               Profile
             </button>
             <button

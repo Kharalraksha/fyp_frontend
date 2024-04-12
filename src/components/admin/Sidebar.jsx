@@ -47,7 +47,7 @@ export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className="fixed top-0 left-0 h-screen">
+    <aside className="fixed top-0 left-0 h-screen w-52 bg-red-50 border-r shadow-sm">
       <nav className="h-full flex flex-col bg-red-50 border-r shadow-sm">
         <div className="p-4 pb-12 flex flex-col justify-between items-start">
           <button
@@ -84,6 +84,7 @@ export default function Sidebar({ children }) {
               text="Appointment"
               to="/appointment"
             />
+            <SidebarItem icon={faUser} text="Payment" to="/payment" />
             <SidebarItem icon={faChartBar} text="Report" to="/report" />
             {children}
           </ul>

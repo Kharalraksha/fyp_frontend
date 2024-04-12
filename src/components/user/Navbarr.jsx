@@ -1,64 +1,65 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown, FaUserCircle } from "react-icons/fa";
 import raksha from "../../assets/raksha.png";
 import { useAuth } from "../auth/Authcontext";
 import DropdownMenu from "../my_UI/DropdownMenu";
 
 const Navbarr = () => {
-  const [expanded, setExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const { user, logout } = useAuth(); // Use useAuth hook to access context
-  const categories = ["Bridal", "Festive", "Casual"];
+  const { user, logout } = useAuth();
+  const navigate = useNavigate(); // Add this to use navigate for redirection
 
-  // Function to toggle user dropdown
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+  // Toggle dropdown visibility
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
+
+  // Handle logout and navigate to signin form
+  const handleLogout = () => {
+    logout();
+    setShowDropdown(false);
+    navigate("/SigninForm"); // Adjust the path as needed
   };
 
   return (
     <nav className="bg-theme_color p-4 fixed w-full top-0 z-10">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
-          <img src={raksha} alt="raksha" className="h-16 object-contain" />
+          <img src={raksha} alt="Raksha" className="h-16 object-contain" />
           <div className="flex justify-start items-center space-x-32 ml-52">
-            <div>
-              <Link to="/home" className="text-black text-xl font-bold">
-                Home
-              </Link>
-            </div>
-            <div>
-              <DropdownMenu />
-            </div>
-            <div>
-              <Link to="/about" className="text-black text-xl font-bold">
-                About Us
-              </Link>
-            </div>
-            <div>
-              <Link to="/ContactUS" className="text-black text-xl font-bold">
-                Contact Us
-              </Link>
-            </div>
+            {/* Navigation Links */}
+            <Link to="/" className="text-black text-xl font-bold">
+              Home
+            </Link>
+            <DropdownMenu />
+            <Link to="/Aboutus" className="text-black text-xl font-bold">
+              About Us
+            </Link>
+            <Link to="/ContactUS" className="text-black text-xl font-bold">
+              Contact Us
+            </Link>
+            {/* User Profile/Logout */}
             <div>
               {user ? (
-                <div className="relative">
-                  <FaUserCircle
+                <div className="relative flex items-center">
+                  <span className="mr-3 font-medium text-xl">
+                    {user.name ?? user?.email?.split("@")[0] ?? "User"}
+                  </span>
+                  <FaAngleDown
                     size="28"
                     className="text-black cursor-pointer"
                     onClick={toggleDropdown}
                   />
                   {showDropdown && (
-                    <div className="absolute right-0 mt-2 py-2 w-48 bg-red-100 rounded-md shadow-xl z-20">
+                    <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
                       <Link
                         to="/profile"
-                        className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-rose-200 hover:text-white"
+                        className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
                       >
                         Your Profile
                       </Link>
                       <button
-                        onClick={logout}
-                        className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-rose-200 hover:text-white w-full text-left"
+                        onClick={handleLogout}
+                        className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100 w-full text-left"
                       >
                         Logout
                       </button>
@@ -66,33 +67,11 @@ const Navbarr = () => {
                   )}
                 </div>
               ) : (
-                <Link to="/signinform" className="text-black text-xl font-bold">
+                <Link to="/SigninForm" className="text-black text-xl font-bold">
                   Login
                 </Link>
               )}
             </div>
-            {/* <div className="relative inline-block text-black"> */}
-            {/* <button
-                onClick={() => setExpanded(!expanded)}
-                className="text-xl font-bold focus:outline-none flex items-center"
-              >
-                Category <FaAngleDown className="ml-2" />
-              </button> */}
-
-            {/* {expanded && (
-                <div className="absolute mt-2 space-y-4 bg-red-100 rounded-lg">
-                  {categories.map((category, index) => (
-                    <Link
-                      key={index}
-                      to={`/${category.toLowerCase()}`}
-                      className="block px-4 py-1 text-lg font-normal border-b hover:bg-gray-100"
-                    >
-                      {category}
-                    </Link>
-                  ))}
-                </div>
-              )} */}
-            {/* </div> */}
           </div>
         </div>
       </div>
