@@ -15,8 +15,21 @@ const ArtistSidebar = () => {
       </h2>
       <nav className="mt-28">
         <Link
-          to="/upload/id"
+          to="/artistdas"
           className={`flex text-xl items-center p-2 rounded-lg transition duration-200 mt-10 ${
+            isActive("/artistdas")
+              ? "bg-orange-300 text-white"
+              : "hover:bg-orange-300 hover:text-white"
+          }`}
+        >
+          <FaClock
+            className={`mr-3 ${isActive("/artistdas") ? "text-white" : ""}`}
+          />
+          Dashboard
+        </Link>
+        <Link
+          to="/upload/id"
+          className={`flex text-xl items-center p-2 rounded-lg transition duration-200 mt-4 ${
             isActive("/upload/id")
               ? "bg-orange-300 text-white"
               : "hover:bg-orange-300 hover:text-white"

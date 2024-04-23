@@ -10,7 +10,7 @@ import {
 import raksha from "../../assets/raksha.png";
 
 const Footer = () => (
-  <footer className="bg-red-200 mt-auto">
+  <footer className="bg-red-50 mt-auto">
     <img
       src={raksha}
       alt="raksha"

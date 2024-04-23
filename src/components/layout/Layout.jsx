@@ -27,6 +27,10 @@ function Layout({ children }) {
     "artistprofile",
     "/ContactUS",
     "/Aboutus",
+    "/report",
+    "/EditUserForm",
+    "/editAppointment/",
+    "/EditForm",
   ];
 
   const showNavFooter = !excludeNavFooterPaths.some(

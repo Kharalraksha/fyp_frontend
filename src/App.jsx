@@ -34,6 +34,9 @@ import EditPaymentForm from "./components/admin/EditPaymentForm";
 import Payment from "./components/admin/Payment";
 import EditArtistProfile from "./components/user/EditArtistProfile";
 import AboutUs from "./components/user/AboutUs";
+import Artistdas from "./components/user/Artistdas";
+import Report from "./components/admin/Report";
+import UserProfileForm from "./components/user/UserProfileForm";
 
 function App() {
   return (
@@ -61,6 +64,7 @@ function App() {
               <Route path="/edituserform/:id" element={<EditUserForm />} />
               <Route path="/editpayment/:id" element={<EditPaymentForm />} />
               <Route path="/payment" element={<Payment />} />
+              <Route path="/userprofile" element={<UserProfileForm />} />
               <Route
                 path="/editappointment/:id"
                 element={<EditAppointment />}
@@ -71,6 +75,8 @@ function App() {
               <Route path="/panel" element={<ArtistPanel />} />
               <Route path="/history" element={<AppointmentHistory />} />
               <Route path="/aboutus" element={<AboutUs />} />
+              <Route path="/artistdas" element={<Artistdas />} />
+              <Route path="/report" element={<Report />} />
               <Route path="/artistprofile" element={<EditArtistProfile />} />
               <Route
                 path="/userappointment/:id"

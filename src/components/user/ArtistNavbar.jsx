@@ -31,7 +31,7 @@ const ArtistNavbar = () => {
           onClick={handleLogout}
           className="text-gray-600 px-4 py-2 hover:bg-gray-100 rounded transition duration-200"
         >
-          Logout
+          <Link to="/">Logout</Link>
         </button>
       </div>
     </nav>

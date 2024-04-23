@@ -14,17 +14,6 @@ const SigninForm = () => {
   const navigate = useNavigate();
   const { user, login } = useAuth();
 
-  useEffect(() => {
-    // Redirect if the user is already logged in
-    if (user && user.token) {
-      if (user.role === "admin") {
-        navigate("/dashboard"); // Navigate to the dashboard for admins
-      } else {
-        navigate("/"); // Navigate to the homepage for regular users
-      }
-    }
-  }, [user, navigate]);
-
   const validateForm = () => {
     let isValid = true;
     setEmailError("");
@@ -42,7 +31,7 @@ const SigninForm = () => {
       setPasswordError("Password is required");
       isValid = false;
     } else if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters long");
+      setPasswordError("Incorrect password");
       isValid = false;
     }
 
@@ -65,24 +54,23 @@ const SigninForm = () => {
       );
 
       if (response.status === 200 && response.data.token) {
-        const { token, userDetails } = response.data;
+        const { token, userDetails, isAdmin } = response.data;
 
-        // Update the login function call to include name from userDetails
         login({
           userId: userDetails.userId,
           token: token,
           email: userDetails.email,
-          name: userDetails.name, // Use the key that matches your backend response
-          role: userDetails.role, // Include role in user context
+          name: userDetails.name,
+          role: userDetails.role,
         });
 
-        if (userDetails.role === "admin") {
-          navigate("/dashboard"); // Navigate to the dashboard for admins
+        if (isAdmin) {
+          navigate("/dashboard"); // Redirect admin users to admin dashboard
         } else {
-          navigate("/"); // Navigate to the homepage for regular users
+          navigate("/"); // Redirect regular users to homepage
         }
       } else {
-        setMessage(response.data.message || "Login failed. Please try again.");
+        setMessage(response.data.error || "Login failed. Please try again.");
       }
     } catch (error) {
       console.error("Login error:", error.response || error);
@@ -96,7 +84,6 @@ const SigninForm = () => {
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-slate-200">
       <div className="bg-white rounded-lg p-20 w-200 shadow-md text-center">
         <h2 className="text-3xl font-bold mb-8 ">Sign in for Glowquill</h2>
-
         <form onSubmit={handleSubmit} className="flex flex-col items-center">
           <div className="mb-6 w-full">
             <label
@@ -132,12 +119,6 @@ const SigninForm = () => {
             />
             {passwordError && <p className="text-red-500">{passwordError}</p>}
           </div>
-          <Link
-            to="/forgot-password"
-            className="text-sm text-gray-700 mb-4 self-end"
-          >
-            Forgot Password?
-          </Link>
           <button
             type="submit"
             disabled={isSubmitting}

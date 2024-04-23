@@ -19,6 +19,7 @@ const RegistrationForm = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null); // Add state for image preview URL
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,6 +62,10 @@ const RegistrationForm = () => {
         }
       );
       // Optionally redirect user or show a success message here
+      setSuccessMessage("Successfully Registered!");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
       setFormData({
         name: "",
         email: "",
@@ -88,6 +93,15 @@ const RegistrationForm = () => {
         <h3 className="text-2xl font-bold text-center">
           Makeup Artist Registration
         </h3>
+        {successMessage && (
+          <div
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
+            <strong className="font-bold">Success!</strong>
+            <span className="block sm:inline"> {successMessage}</span>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mt-4">
             <div className="mt-4">
@@ -240,19 +254,6 @@ const RegistrationForm = () => {
                 onChange={handlePhotoChange}
               />
             </div>
-            {imagePreviewUrl && (
-              <div className="mt-4">
-                <label className="block" htmlFor="imagePreview">
-                  Image Preview
-                </label>
-                {/* Use imagePreviewUrl as the source for the image preview */}
-                <img
-                  src={imagePreviewUrl}
-                  alt="Preview"
-                  className="w-full max-w-xs h-auto"
-                />
-              </div>
-            )}
 
             {errors && errors.error && (
               <p className="mt-2 text-sm text-red-600">{errors.error}</p>

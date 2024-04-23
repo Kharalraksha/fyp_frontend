@@ -31,7 +31,7 @@ const AppointmentHistory = () => {
   const handleCancelAppointment = async (appointmentId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/appointment/32`
+        `http://localhost:3000/api/appointment/${appointmentId}`
       );
       if (response.status === 200) {
         // Remove the canceled appointment from the list
@@ -40,6 +40,7 @@ const AppointmentHistory = () => {
             (appointment) => appointment.appointment_Id !== appointmentId
           )
         );
+        alert("Appointment successfully canceled.");
       } else {
         throw new Error("Failed to cancel appointment.");
       }
@@ -62,6 +63,7 @@ const AppointmentHistory = () => {
       if (response.status === 200) {
         // Update the appointment with the new date and timeslot
         fetchAppointmentsByArtist(artistId);
+        alert("Appointment successfully rescheduled.");
       } else {
         throw new Error("Failed to reschedule appointment.");
       }

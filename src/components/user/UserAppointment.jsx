@@ -70,6 +70,7 @@ function UserAppointment() {
         ...appointment,
         timeslot_Id: selectedTimeslotId,
       };
+      console.log("timeslot_Id", selectedTimeslotId);
       const response = await axios.post(
         "http://localhost:3000/api/appointment/add",
         appointmentData,
@@ -155,7 +156,7 @@ function UserAppointment() {
                 >
                   <option value="">Select Timeslot</option>
                   {timeslots.map((timeslot) => (
-                    <option key={timeslot.id} value={timeslot.id}>
+                    <option key={timeslot.Id} value={timeslot.Id}>
                       {timeslot.available_time}
                     </option>
                   ))}
@@ -168,11 +169,13 @@ function UserAppointment() {
               >
                 {isSubmitting ? "Booking..." : "Book Appointment"}
               </button>
-              {message && <p className="text-red-400">{message}</p>}
+              {message && <p className="text-green-400">{message}</p>}
             </form>
           </div>
         </div>
         <div className="mt-6">
+
+          
           <Khalti
             user_Id={user ? user.userId : ""}
             appointment_Id={createdAppointmentId}

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = ({ baseUrl }) => {
   const navigate = useNavigate();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [userName, setUserName] = useState("Rakshya"); // Assuming userName is fetched and stored here
+  const [userName, setUserName] = useState("Admin"); // Assuming userName is fetched and stored here
 
   const handleLogout = () => {
     localStorage.removeItem("token");

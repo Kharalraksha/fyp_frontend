@@ -21,7 +21,7 @@ const Navbarr = () => {
   };
 
   return (
-    <nav className="bg-theme_color p-4 fixed w-full top-0 z-10">
+    <nav className="bg-rose-50 p-4 fixed w-full top-0 z-10">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
           <img src={raksha} alt="Raksha" className="h-16 object-contain" />
@@ -42,7 +42,7 @@ const Navbarr = () => {
               {user ? (
                 <div className="relative flex items-center">
                   <span className="mr-3 font-medium text-xl">
-                    {user.name ?? user?.email?.split("@")[0] ?? "User"}
+                    {user?.email?.split("@")[0] ?? "User"}
                   </span>
                   <FaAngleDown
                     size="28"
@@ -52,7 +52,7 @@ const Navbarr = () => {
                   {showDropdown && (
                     <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
                       <Link
-                        to="/profile"
+                        to="/userprofile"
                         className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
                       >
                         Your Profile

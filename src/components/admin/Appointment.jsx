@@ -40,26 +40,26 @@ const Appointment = () => {
           (appointment) => appointment.appointment_Id !== appointment_Id
         )
       );
-      setOpenDeleteModal(false); // Close the modal on successful deletion
+      setOpenDeleteModal(false); 
     } catch (error) {
       console.error("Error deleting the appointment: ", error);
-      setOpenDeleteModal(false); // Close the modal on error as well
+      setOpenDeleteModal(false); 
     }
   };
 
   const handleEditAppointment = (appointment_Id) => {
     console.log(`Edit appointment with ID ${appointment_Id}`);
-    // Implement your logic to navigate to the edit page or show an edit modal
+    
   };
 
   const handlePreviousClick = () => {
     console.log("Previous clicked");
-    // Implement your logic for pagination
+   
   };
 
   const handleNextClick = () => {
     console.log("Next clicked");
-    // Implement your logic for pagination
+   
   };
 
   return (
